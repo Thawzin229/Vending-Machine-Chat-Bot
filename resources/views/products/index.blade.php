@@ -5,7 +5,10 @@
         <h1 class="text-2xl font-semibold">Products</h1>
         @auth
             @if (auth()->user()->isAdmin())
-                <a class="rounded bg-slate-900 px-4 py-2 text-white" href="{{ route('products.create') }}">Add Product</a>
+            <div class="flex gap-2">
+                <a class="rounded-full bg-slate-900 px-3 py-1 text-white" href="{{ route('products.create') }}">Add Product</a>
+                <a class="rounded-full bg-teal-500 px-3 py-1 text-white" href="{{ route('chatbot.index') }}">Chat Bot</a>
+            </div>
             @endif
         @endauth
     </div>
