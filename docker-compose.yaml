@@ -1,0 +1,53 @@
+services:
+  my-testing-app:
+    image: thawzin229/githubaction:8de1baccf89f5dd630013740b3b9ee0a586f5d28
+    container_name: vendingmachine_containner_app
+    restart: unless-stopped
+    networks:
+      - mysql_network
+    ports:
+      - "8006:80"
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+      - DB_DATABASE=GoodWorld
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql_db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=GoodWorld
+    networks:
+      - mysql_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mysql_db
+      - PMA_PORT=3306
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    networks:
+      - mysql_network
+    restart: unless-stopped
+
+networks:
+  mysql_network:
+    driver: bridge
