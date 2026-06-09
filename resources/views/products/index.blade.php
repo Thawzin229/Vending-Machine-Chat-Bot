@@ -6,7 +6,7 @@
         @auth
             @if (auth()->user()->isAdmin())
             <div class="flex gap-2">
-                <a class="rounded-full bg-slate-900 px-3 py-1 text-white" href="{{ route('products.create') }}">Add Product</a>
+                <a class="rounded-full bg-slate-900 px-3 py-1 text-white" href="{{ route('products.create') }}">Add Products</a>
                 <a class="rounded-full bg-teal-500 px-3 py-1 text-white" href="{{ route('chatbot.index') }}">Chat Bot</a>
             </div>
             @endif
